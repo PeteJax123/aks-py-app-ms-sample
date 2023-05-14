@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-sample-web-app-03
+spec:
+  replicas: 3  # Number of desired pods
+  selector:
+    matchLabels:
+      app: azure-sample-web-app-03
+  template:
+    metadata:
+      labels:
+        app: azure-sample-web-app-03
+    spec:
+      containers:
+        - name: azure-sample-web-app-03
+          image: <acr-name>.azurecr.io/azure-simple-web-app-03
+          ports:
+            - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-sample-web-app-03
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 5000
+  selector:
+    app: azure-sample-web-app-03
+
